@@ -1,4 +1,4 @@
-package mk.pcldumper;
+package de.textmode.pcldumper;
 
 /*
  * Copyright 2017 Michael Knigge
@@ -24,29 +24,31 @@ import java.nio.charset.Charset;
 
 import javax.xml.bind.DatatypeConverter;
 
-import mk.pclbox.ControlCharacterCommand;
-import mk.pclbox.HpglCommand;
-import mk.pclbox.ParameterizedPclCommand;
-import mk.pclbox.PclException;
-import mk.pclbox.PclParser;
-import mk.pclbox.PjlCommand;
-import mk.pclbox.PrinterCommand;
-import mk.pclbox.PrinterCommandHandler;
-import mk.pclbox.PrinterCommandVisitor;
-import mk.pclbox.TextCommand;
-import mk.pclbox.TwoBytePclCommand;
+import de.textmode.pclbox.ControlCharacterCommand;
+import de.textmode.pclbox.HpglCommand;
+import de.textmode.pclbox.ParameterizedPclCommand;
+import de.textmode.pclbox.PclException;
+import de.textmode.pclbox.PclParser;
+import de.textmode.pclbox.PjlCommand;
+import de.textmode.pclbox.PrinterCommand;
+import de.textmode.pclbox.PrinterCommandHandler;
+import de.textmode.pclbox.PrinterCommandVisitor;
+import de.textmode.pclbox.TextCommand;
+import de.textmode.pclbox.TwoBytePclCommand;
 
 /**
  * The {@link PclDumper} parses a PCL file and prints all printer commands.
  */
 final class PclDumper implements PrinterCommandHandler, PrinterCommandVisitor {
 
-    private final static Charset ISO_8869_1 = Charset.forName("iso-8859-1");
+    private static final Charset ISO_8869_1 = Charset.forName("iso-8859-1");
+    private static final PrinterCommandExecutorMap EXECUTORS = new PrinterCommandExecutorMap();
 
     private final boolean quiet;
     private final boolean verbose;
     private final boolean showOffsets;
 
+    private PclDumperContext context;
     private PrintStream outputStream;
 
     /**
@@ -70,8 +72,8 @@ final class PclDumper implements PrinterCommandHandler, PrinterCommandVisitor {
      * @param in   the input PCL data stream to be parsed.
      * @param out   the output stream to which the dump will be written.
      *
-     * @throws PclException
-     * @throws IOException
+     * @throws PclException if the parsed PCL data stream contains an error
+     * @throws IOException if an I/O error occurs
      */
     void dump(final InputStream in, final PrintStream out) throws IOException, PclException {
 
@@ -82,6 +84,7 @@ final class PclDumper implements PrinterCommandHandler, PrinterCommandVisitor {
         }
 
         this.outputStream = out;
+        this.context = new PclDumperContext();
 
         try (final PclParser parser = new PclParser(in, this)) {
             parser.parse();
@@ -104,7 +107,7 @@ final class PclDumper implements PrinterCommandHandler, PrinterCommandVisitor {
         // TODO  display in next line?
         // TODO  prettyPrint (for stuff < ASCII 32
         if (this.verbose) {
-            this.printLine("TEXT", "", command.getTextualDescription());
+            this.printLine(command, "TEXT", "", command.getTextualDescription());
 
             this.printLine("Length (Bytes) : " + command.getText().length);
             this.printLine("Parsing Method : " + "currently unknown");
@@ -112,39 +115,46 @@ final class PclDumper implements PrinterCommandHandler, PrinterCommandVisitor {
 
             this.printLine("Decoded        : " + new String(command.getText(), ISO_8869_1));
         } else {
-            this.printLine("TEXT", "", new String(command.getText(), ISO_8869_1));
+            this.printLine(command, "TEXT", "", new String(command.getText(), ISO_8869_1));
         }
     }
 
     @Override
     public void handle(ControlCharacterCommand command) {
-        this.printLine("CNTL", command.toDisplayString(), command.getTextualDescription());
+        this.printLine(command, "CNTL", command.toDisplayString(), command.getTextualDescription());
     }
 
     @Override
     public void handle(TwoBytePclCommand command) {
-        this.printLine("PCL", command.toDisplayString(), command.getTextualDescription());
+        this.printLine(command, "PCL", command.toDisplayString(), command.getTextualDescription());
     }
 
     @Override
     public void handle(ParameterizedPclCommand command) {
         // TODO  show (appended to getTextualDescription) a textual description of the value if flag is set to "verbose"
-        this.printLine("PCL", command.toDisplayString(), command.getTextualDescription());
+        this.printLine(command, "PCL", command.toDisplayString(), command.getTextualDescription());
     }
 
     @Override
     public void handle(PjlCommand command) {
-        this.printLine("PJL", "@PJL", command.toDisplayString());
+        this.printLine(command, "PJL", "@PJL", command.toDisplayString());
     }
 
     @Override
     public void handle(HpglCommand command) {
         // TODO  show the whole HPGL command in the next line if "verbose"
-        this.printLine("HPGL", command.toCommandString(), command.getTextualDescription());
+        this.printLine(command, "HPGL", command.toCommandString(), command.getTextualDescription());
     }
 
-    private void printLine(final String type, final String command, final String description) {
-        this.outputStream.println(String.format("%1$-8s %2$-15s %3$s", type, command, description));
+    private void printLine(PrinterCommand cmd, final String type, final String command, final String description) {
+        final String details = EXECUTORS.executeFor(cmd, this.context);
+        final String toPrint;
+        if (details != null && details.length() > 0) {
+            toPrint = description + " (" + details + ")";
+        } else {
+            toPrint = description;
+        }
+        this.outputStream.println(String.format("%1$-8s %2$-15s %3$s", type, command, toPrint));
     }
 
     private void printLine(final String text) {

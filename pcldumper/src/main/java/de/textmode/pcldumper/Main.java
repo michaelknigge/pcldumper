@@ -1,4 +1,4 @@
-package mk.pcldumper;
+package de.textmode.pcldumper;
 
 /*
  * Copyright 2017 Michael Knigge
@@ -29,7 +29,8 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import mk.pclbox.PclException;
+import de.textmode.pclbox.PclException;
+
 
 /**
  * This is the Main-Class of PCL-Dumper. It is just used to parse the command line arguments. This is the
@@ -116,7 +117,7 @@ public final class Main {
      * @param fileName   the name of the output file.
      */
     private static void dumpToFile(PclDumper dumper, InputStream in, String fileName) {
-        try (final PrintStream out = new PrintStream(fileName)) {
+        try (final PrintStream out = new PrintStream(fileName, "utf-8")) {
             dumper.dump(in, out);
         } catch (final PclException | IOException e) {
             showError(e.getMessage());

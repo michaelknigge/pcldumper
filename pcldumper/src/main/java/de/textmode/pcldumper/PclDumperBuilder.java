@@ -1,4 +1,4 @@
-package mk.pcldumper;
+package de.textmode.pcldumper;
 
 /*
  * Copyright 2017 Michael Knigge

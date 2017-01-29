@@ -1,4 +1,4 @@
-package mk.pcldumper;
+package de.textmode.pcldumper;
 
 /*
  * Copyright 2017 Michael Knigge
@@ -26,8 +26,8 @@ import java.util.Arrays;
 
 import org.apache.commons.io.IOUtils;
 
+import de.textmode.pclbox.PclException;
 import junit.framework.TestCase;
-import mk.pclbox.PclException;
 
 public final class PclDumperTest extends TestCase {
 
