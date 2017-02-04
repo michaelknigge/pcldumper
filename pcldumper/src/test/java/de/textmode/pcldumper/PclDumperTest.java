@@ -86,8 +86,8 @@ public final class PclDumperTest extends TestCase {
             final byte[] expectedBytes = IOUtils.toByteArray(expected);
             if (!Arrays.equals(actual, expectedBytes)) {
                 assertEquals(
-                        ISO_8859_1.decode(ByteBuffer.wrap(actual)),
-                        ISO_8859_1.decode(ByteBuffer.wrap(expectedBytes)));
+                        ISO_8859_1.decode(ByteBuffer.wrap(expectedBytes)),
+                        ISO_8859_1.decode(ByteBuffer.wrap(actual)));
             }
         }
     }

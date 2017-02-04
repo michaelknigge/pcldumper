@@ -7,12 +7,12 @@ PJL      @PJL            @PJL COMMENT THIS IS A TEST CASE
 PJL      @PJL            @PJL COMMENT "THIS IS REALLY A TEST CASE"
 PJL      @PJL            @PJL ENTER LANGUAGE=PCL
 PCL      E               Printer Reset
-PCL      &l26A           Page Size
+PCL      &l26A           Page Size (A4)
 TEXT                     This file contains all types printer commands that are supported
 CNTL     0x0D            Carriage Return
 CNTL     0x0A            Line Feed
 TEXT                     by PclDumper.
-PCL      %0B             Enter HP-GL/2 Mode
+PCL      %0B             Enter HP-GL/2 Mode (Position pen at previous HP-GL/2 pen position)
 HPGL     IN              Initialize
 HPGL     SP              Select Pen
 HPGL     CO              Comment
@@ -20,7 +20,7 @@ HPGL     SC              Screened Vectors
 HPGL     SP              Select Pen
 HPGL     CO              Comment
 HPGL     SC              Screened Vectors
-PCL      %0A             Enter PCL Mode
+PCL      %0A             Enter PCL Mode (Position cursor at previous PCL cursor position)
 CNTL     0x0D            Carriage Return
 CNTL     0x0A            Line Feed
 CNTL     0x0D            Carriage Return
@@ -31,11 +31,11 @@ CNTL     0x0A            Line Feed
 CNTL     0x0D            Carriage Return
 CNTL     0x0A            Line Feed
 TEXT                     And now Text encoded in UTF-8: 
-PCL      &t1008P         Text Parsing Method
-PCL      (18N            Primary Symbol Set
-PCL      (s0P            Primary Spacing
+PCL      &t1008P         Text Parsing Method (UTF-8)
+PCL      (18N            Primary Symbol Set (Unicode)
+PCL      (s0P            Primary Spacing (Fixed spacing)
 PCL      (s6H            Primary Pitch (Characters Per Inch)
-PCL      (s0S            Primary Style
-PCL      (s0B            Primary Stroke Weight
-PCL      (s4099T         Primary Typeface
+PCL      (s0S            Primary Style (Upright, solid)
+PCL      (s0B            Primary Stroke Weight (Medium, Book, or Text)
+PCL      (s4099T         Primary Typeface (Courier from AGFA)
 PCL      %-12345X        Universal Exit Language
