@@ -3,8 +3,8 @@
 @PJL COMMENT "THIS IS REALLY A TEST CASE"
 @PJL ENTER LANGUAGE=PCL
 E&l26AThis file contains all types printer commands that are supported
-by PclDumper.%0BIN;SP1;CO"This uncludes HP/GL-2 comments in double quotes";SC0,100,0,100;SP1;COAs_well_as_commets_without_quotes;SC0,100,0,100;%0A
+by PclDumper.%0BIN;SP1;CO"This includes HP/GL-2 comments in double quotes";SC0,100,0,100;SP1;COAs_well_as_commets_without_quotes;SC0,100,0,100;%0A
 
 &p48XAnd text in PCL-Command "Transparent Print Data"
 
-And now Text encoded in UTF-8: &t1008P(18N(s0p6h0s0b4099T%-12345X
+And now Text encoded in UTF-8: &t1008P(18N(s0p6h0s0b4099T£€%-12345X

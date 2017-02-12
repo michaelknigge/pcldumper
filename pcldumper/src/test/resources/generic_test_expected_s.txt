@@ -1,5 +1,5 @@
 PCL-Dumper 1.0 - see https://github.com/michaelknigge/pcldumper
-----------------------------------------------------------------------
+---------------------------------------------------------------
  
 PCL      %-12345X        Universal Exit Language
 PJL      @PJL            @PJL
@@ -38,4 +38,5 @@ PCL      (s6H            Primary Pitch (Characters Per Inch)
 PCL      (s0S            Primary Style (Upright, solid)
 PCL      (s0B            Primary Stroke Weight (Medium, Book, or Text)
 PCL      (s4099T         Primary Typeface (Courier from AGFA)
+TEXT                     £€
 PCL      %-12345X        Universal Exit Language

@@ -1,5 +1,5 @@
 PCL-Dumper 1.0 - see https://github.com/michaelknigge/pcldumper
-----------------------------------------------------------------------
+---------------------------------------------------------------
  
 00000000 : PCL      %-12345X        Universal Exit Language
 00000009 : PJL      @PJL            @PJL
@@ -38,4 +38,5 @@ PCL-Dumper 1.0 - see https://github.com/michaelknigge/pcldumper
 000001C4 : PCL      (s0S            Primary Style (Upright, solid)
 000001C6 : PCL      (s0B            Primary Stroke Weight (Medium, Book, or Text)
 000001C8 : PCL      (s4099T         Primary Typeface (Courier from AGFA)
-000001CD : PCL      %-12345X        Universal Exit Language
+000001CD : TEXT                     £€
+000001D2 : PCL      %-12345X        Universal Exit Language

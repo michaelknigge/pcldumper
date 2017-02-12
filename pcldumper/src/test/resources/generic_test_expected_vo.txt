@@ -1,5 +1,5 @@
 PCL-Dumper 1.0 - see https://github.com/michaelknigge/pcldumper
-----------------------------------------------------------------------
+---------------------------------------------------------------
  
 00000000 : PCL      %-12345X        Universal Exit Language
 00000009 : PJL      @PJL            @PJL
@@ -9,25 +9,32 @@ PCL-Dumper 1.0 - see https://github.com/michaelknigge/pcldumper
 00000075 : PCL      E               Printer Reset
 00000077 : PCL      &l26A           Page Size (A4)
 0000007D : TEXT                     Printable text
-           Length (Bytes) : 64
-           Parsing Method : currently unknown
-           Hexadecimal    : 546869732066696C6520636F6E7461696E7320616C6C207479706573207072696E74657220636F6D6D616E647320746861742061726520737570706F72746564
-           Decoded        : This file contains all types printer commands that are supported
+                                    >>> Length (Bytes) : 64
+                                    >>> Parsing Method : Default, 1 byte per character
+                                    >>> Hexadecimal    : 546869732066696C6520636F6E7461696E7320616C6C207479706573207072696E74657220636F6D6D616E647320746861742061726520737570706F72746564
+                                    >>> Decoded        : This file contains all types printer commands that are supported
 000000BD : CNTL     0x0D            Carriage Return
 000000BE : CNTL     0x0A            Line Feed
 000000BF : TEXT                     Printable text
-           Length (Bytes) : 13
-           Parsing Method : currently unknown
-           Hexadecimal    : 62792050636C44756D7065722E
-           Decoded        : by PclDumper.
+                                    >>> Length (Bytes) : 13
+                                    >>> Parsing Method : Default, 1 byte per character
+                                    >>> Hexadecimal    : 62792050636C44756D7065722E
+                                    >>> Decoded        : by PclDumper.
 000000CC : PCL      %0B             Enter HP-GL/2 Mode (Position pen at previous HP-GL/2 pen position)
 000000D0 : HPGL     IN              Initialize
+                                    >>> IN
 000000D3 : HPGL     SP              Select Pen
+                                    >>> SP1
 000000D7 : HPGL     CO              Comment
+                                    >>> CO"This includes HP/GL-2 comments in double quotes"
 0000010B : HPGL     SC              Screened Vectors
+                                    >>> SC0,100,0,100
 00000119 : HPGL     SP              Select Pen
+                                    >>> SP1
 0000011D : HPGL     CO              Comment
+                                    >>> COAs_well_as_commets_without_quotes
 00000141 : HPGL     SC              Screened Vectors
+                                    >>> SC0,100,0,100
 0000014F : PCL      %0A             Enter PCL Mode (Position cursor at previous PCL cursor position)
 00000153 : CNTL     0x0D            Carriage Return
 00000154 : CNTL     0x0A            Line Feed
@@ -39,10 +46,10 @@ PCL-Dumper 1.0 - see https://github.com/michaelknigge/pcldumper
 0000018F : CNTL     0x0D            Carriage Return
 00000190 : CNTL     0x0A            Line Feed
 00000191 : TEXT                     Printable text
-           Length (Bytes) : 31
-           Parsing Method : currently unknown
-           Hexadecimal    : 416E64206E6F77205465787420656E636F64656420696E205554462D383A20
-           Decoded        : And now Text encoded in UTF-8: 
+                                    >>> Length (Bytes) : 31
+                                    >>> Parsing Method : Default, 1 byte per character
+                                    >>> Hexadecimal    : 416E64206E6F77205465787420656E636F64656420696E205554462D383A20
+                                    >>> Decoded        : And now Text encoded in UTF-8: 
 000001B0 : PCL      &t1008P         Text Parsing Method (UTF-8)
 000001B8 : PCL      (18N            Primary Symbol Set (Unicode)
 000001BD : PCL      (s0P            Primary Spacing (Fixed spacing)
@@ -50,4 +57,9 @@ PCL-Dumper 1.0 - see https://github.com/michaelknigge/pcldumper
 000001C4 : PCL      (s0S            Primary Style (Upright, solid)
 000001C6 : PCL      (s0B            Primary Stroke Weight (Medium, Book, or Text)
 000001C8 : PCL      (s4099T         Primary Typeface (Courier from AGFA)
-000001CD : PCL      %-12345X        Universal Exit Language
+000001CD : TEXT                     Printable text
+                                    >>> Length (Bytes) : 5
+                                    >>> Parsing Method : UTF-8
+                                    >>> Hexadecimal    : C2A3E282AC
+                                    >>> Decoded        : £€
+000001D2 : PCL      %-12345X        Universal Exit Language

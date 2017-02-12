@@ -41,8 +41,10 @@ import de.textmode.pclbox.TwoBytePclCommand;
  */
 final class PclDumper implements PrinterCommandHandler, PrinterCommandVisitor {
 
-    private static final Charset ISO_8869_1 = Charset.forName("iso-8859-1");
     private static final PrinterCommandExecutorMap EXECUTORS = new PrinterCommandExecutorMap();
+
+    private static final String INDENTION_WITH_OFFSETS = "                                    ";
+    private static final String INDENTION_WITHOUT_OFFSETS = "                         ";
 
     private final boolean quiet;
     private final boolean verbose;
@@ -77,9 +79,10 @@ final class PclDumper implements PrinterCommandHandler, PrinterCommandVisitor {
      */
     void dump(final InputStream in, final PrintStream out) throws IOException, PclException {
 
+        // TODO Get version number from JAR file
         if (!this.quiet) {
             out.println("PCL-Dumper 1.0 - see https://github.com/michaelknigge/pcldumper");
-            out.println("----------------------------------------------------------------------");
+            out.println("---------------------------------------------------------------");
             out.println(" ");
         }
 
@@ -106,16 +109,17 @@ final class PclDumper implements PrinterCommandHandler, PrinterCommandVisitor {
         // TODO  also do binary display?
         // TODO  display in next line?
         // TODO  prettyPrint (for stuff < ASCII 32
+        final Charset charset = this.context.getTextParsingMethod().getCharset();
         if (this.verbose) {
             this.printLine(command, "TEXT", "", command.getTextualDescription());
 
             this.printLine("Length (Bytes) : " + command.getText().length);
-            this.printLine("Parsing Method : " + "currently unknown");
+            this.printLine("Parsing Method : " + this.context.getTextParsingMethod());
             this.printLine("Hexadecimal    : " + DatatypeConverter.printHexBinary(command.getText()));
 
-            this.printLine("Decoded        : " + new String(command.getText(), ISO_8869_1));
+            this.printLine("Decoded        : " + new String(command.getText(), charset));
         } else {
-            this.printLine(command, "TEXT", "", new String(command.getText(), ISO_8869_1));
+            this.printLine(command, "TEXT", "", new String(command.getText(), charset));
         }
     }
 
@@ -131,7 +135,6 @@ final class PclDumper implements PrinterCommandHandler, PrinterCommandVisitor {
 
     @Override
     public void handle(ParameterizedPclCommand command) {
-        // TODO  show (appended to getTextualDescription) a textual description of the value if flag is set to "verbose"
         this.printLine(command, "PCL", command.toDisplayString(), command.getTextualDescription());
     }
 
@@ -142,8 +145,10 @@ final class PclDumper implements PrinterCommandHandler, PrinterCommandVisitor {
 
     @Override
     public void handle(HpglCommand command) {
-        // TODO  show the whole HPGL command in the next line if "verbose"
         this.printLine(command, "HPGL", command.toCommandString(), command.getTextualDescription());
+        if (this.verbose) {
+            this.printLine(command.toDisplayString());
+        }
     }
 
     private void printLine(PrinterCommand cmd, final String type, final String command, final String description) {
@@ -159,10 +164,11 @@ final class PclDumper implements PrinterCommandHandler, PrinterCommandVisitor {
 
     private void printLine(final String text) {
         if (this.showOffsets) {
-            this.outputStream.print("           ");
+            this.outputStream.print(INDENTION_WITH_OFFSETS);
         } else {
-            this.outputStream.print("         ");
+            this.outputStream.print(INDENTION_WITHOUT_OFFSETS);
         }
-        this.outputStream.println(text);
+
+        this.outputStream.println(">>> " + text);
     }
 }

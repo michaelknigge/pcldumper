@@ -17,11 +17,14 @@ package de.textmode.pcldumper;
  */
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 import org.apache.commons.io.IOUtils;
@@ -30,6 +33,10 @@ import de.textmode.pclbox.PclException;
 import junit.framework.TestCase;
 
 public final class PclDumperTest extends TestCase {
+
+    // Set this to true to overwrite the "expected files". Note that the JAR needs to be rebuilt
+    // because overwriting the files will not update the files bundled with the JAR...
+    private static final boolean OVERWRITE_EXTECTED_FILES = false;
 
     private static final Charset ISO_8859_1 = Charset.forName("iso-8859-1");
 
@@ -82,6 +89,24 @@ public final class PclDumperTest extends TestCase {
     private void compare(final byte[] actual, final String expectedStreamName)
             throws IOException, PclException {
 
+        if (OVERWRITE_EXTECTED_FILES) {
+
+            final Path path = Paths.get(
+                    new java.io.File(".").getCanonicalPath(),
+                    "src",
+                    "test",
+                    "resources",
+                    expectedStreamName);
+
+            System.out.println("*** Updating file " + path);
+
+            try (final FileOutputStream out = new FileOutputStream(path.toString())) {
+                out.write(actual);
+            }
+
+            return;
+        }
+
         try (final InputStream expected = this.getResourceAsStream(expectedStreamName)) {
             final byte[] expectedBytes = IOUtils.toByteArray(expected);
             if (!Arrays.equals(actual, expectedBytes)) {
@@ -103,7 +128,6 @@ public final class PclDumperTest extends TestCase {
      */
     private void performStandardTest(final String name) throws IOException, PclException {
         try (final InputStream input = this.getResourceAsStream(name + PCL_SUFFIX)) {
-            //new PclDumperBuilder().build().dump(input, System.out);
             this.compare(
                     this.dump(new PclDumperBuilder().build(), input),
                     name + EXPECTED_STANDARD_SUFFIX);
@@ -121,7 +145,6 @@ public final class PclDumperTest extends TestCase {
      */
     private void performStandardTestWithOffsets(final String name) throws IOException, PclException {
         try (final InputStream input = this.getResourceAsStream(name + PCL_SUFFIX)) {
-            //new PclDumperBuilder().showOffsets(true).build().dump(input, System.out);
             this.compare(
                     this.dump(new PclDumperBuilder().showOffsets(true).build(), input),
                     name + EXPECTED_STANDARD_OFFSETS_SUFFIX);
@@ -139,7 +162,6 @@ public final class PclDumperTest extends TestCase {
      */
     private void performVerboseTest(final String name) throws IOException, PclException {
         try (final InputStream input = this.getResourceAsStream(name + PCL_SUFFIX)) {
-            //new PclDumperBuilder().verbose(true).build().dump(input, System.out);
             this.compare(
                     this.dump(new PclDumperBuilder().verbose(true).build(), input),
                     name + EXPECTED_VERBOSE_SUFFIX);
@@ -157,7 +179,6 @@ public final class PclDumperTest extends TestCase {
      */
     private void performVerboseTestWithOffsets(final String name) throws IOException, PclException {
         try (final InputStream input = this.getResourceAsStream(name + PCL_SUFFIX)) {
-            //new PclDumperBuilder().verbose(true).showOffsets(true).build().dump(input, System.out);
             this.compare(
                     this.dump(new PclDumperBuilder().verbose(true).showOffsets(true).build(), input),
                     name + EXPECTED_VERBOSE_OFFSETS_SUFFIX);

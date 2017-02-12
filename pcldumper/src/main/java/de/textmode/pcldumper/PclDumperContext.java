@@ -1,5 +1,7 @@
 package de.textmode.pcldumper;
 
+import java.nio.charset.Charset;
+
 /*
  * Copyright 2017 Michael Knigge
  *
@@ -22,32 +24,54 @@ final class PclDumperContext {
         /**
          * 0 and 1 (one bye per character).
          */
-        DEFAULT,
+        DEFAULT("Default, 1 byte per character", Charset.forName("iso-8859-1")),
 
         /**
          * 21 (one or two bytes bye per character).
          */
-        ASIAN_SEVEN_BIT,
+        ASIAN_SEVEN_BIT("Asian seven bit, i. e. JIS X0208, GB 2312-80 or KS C 5601-1992", Charset.forName("EUC-JP")),
 
         /**
          * 31 (one or two bytes bye per character).
          */
-        SHIFT_JIS,
+        SHIFT_JIS("Shift-JIS", Charset.forName("Shift_JIS")),
 
         /**
          * 38 (one or two bytes bye per character).
          */
-        ASIAN_EIGHT_BIT,
+        ASIAN_EIGHT_BIT("Asian eight bit, i. e. Big Five, TCA, KS C 5601-1992 or GB 2312-80", Charset.forName("Big5")),
 
         /**
          * 83 (according to http://www.tek-tips.com/faqs.cfm?fid=6911)
          */
-        UNICODE,
+        UNICODE("Unicode", Charset.forName("utf-8")),
 
         /**
          * 1008 (according to http://www.tek-tips.com/faqs.cfm?fid=6911)
          */
-        UTF_8;
+        UTF_8("UTF-8", Charset.forName("utf-8"));
+
+        private final String description;
+        private final Charset charset;
+
+        private TextParsingMethod(final String description, final Charset charset) {
+            this.description = description;
+            this.charset = charset;
+        }
+
+        /**
+         * Returns the {@link Charset} that can be used for decoding.
+         *
+         * @return A {@link Charset} that can be used to decode data.
+         */
+        public Charset getCharset() {
+            return this.charset;
+        }
+
+        @Override
+        public String toString() {
+            return this.description;
+        }
     }
 
     private TextParsingMethod textParsingMethod;
