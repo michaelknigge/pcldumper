@@ -75,9 +75,9 @@ final class DefaultCommandExecutor extends PrinterCommandExecutor {
         LOOKUP_MAP.put("&l1L", "Enable");
 
         LOOKUP_MAP.put("&k0G", "CR=CR; LF=LF; FF=FF");
-        LOOKUP_MAP.put("&k0G", "CR=CR-LF; LF=LF; FF=FF");
-        LOOKUP_MAP.put("&k0G", "CR=CR; LF=CR-LF; FF=CR-FF");
-        LOOKUP_MAP.put("&k0G", "CR=CR-LF; LF=CR-LF; FF=CR-FF");
+        LOOKUP_MAP.put("&k1G", "CR=CR-LF; LF=LF; FF=FF");
+        LOOKUP_MAP.put("&k2G", "CR=CR; LF=CR-LF; FF=CR-FF");
+        LOOKUP_MAP.put("&k3G", "CR=CR-LF; LF=CR-LF; FF=CR-FF");
 
         LOOKUP_MAP.put("&f0S", "Push - Store cursor position");
         LOOKUP_MAP.put("&f1S", "Pop - Recall a cursor position");
