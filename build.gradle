@@ -76,11 +76,22 @@ subprojects {
 
     jar {
         manifest {
-            attributes("Implementation-Title": "pclbox",
+            attributes("Implementation-Title": "pcldumper",
                        "Implementation-Version": version,
                        "Main-Class": "de.textmode.pcldumper.Main",
                        "Class-Path": configurations.compile.collect { it.getName() }.join(' '))
         }
+    }
+
+    task fatJar(type: Jar) {
+        manifest {
+            attributes("Implementation-Title": "pcldumper",
+                       "Implementation-Version": version,
+                       "Main-Class": "de.textmode.pcldumper.Main")
+        }
+        baseName = project.name + '-all'
+        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+        with jar
     }
 
     bintray {
