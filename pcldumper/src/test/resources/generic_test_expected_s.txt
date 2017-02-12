@@ -12,6 +12,7 @@ TEXT                     This file contains all types printer commands that are 
 CNTL     0x0D            Carriage Return
 CNTL     0x0A            Line Feed
 TEXT                     by PclDumper.
+PCL      *c72W           User Defined Pattern
 PCL      %0B             Enter HP-GL/2 Mode (Position pen at previous HP-GL/2 pen position)
 HPGL     IN              Initialize
 HPGL     SP              Select Pen

@@ -12,31 +12,32 @@ PCL-Dumper 1.0 - https://github.com/michaelknigge/pcldumper
 000000BD : CNTL     0x0D            Carriage Return
 000000BE : CNTL     0x0A            Line Feed
 000000BF : TEXT                     by PclDumper.
-000000CC : PCL      %0B             Enter HP-GL/2 Mode (Position pen at previous HP-GL/2 pen position)
-000000D0 : HPGL     IN              Initialize
-000000D3 : HPGL     SP              Select Pen
-000000D7 : HPGL     CO              Comment
-0000010B : HPGL     SC              Screened Vectors
-00000119 : HPGL     SP              Select Pen
-0000011D : HPGL     CO              Comment
-00000141 : HPGL     SC              Screened Vectors
-0000014F : PCL      %0A             Enter PCL Mode (Position cursor at previous PCL cursor position)
-00000153 : CNTL     0x0D            Carriage Return
-00000154 : CNTL     0x0A            Line Feed
-00000155 : CNTL     0x0D            Carriage Return
-00000156 : CNTL     0x0A            Line Feed
-00000157 : PCL      &p48X           Transparent Print Data
-0000018D : CNTL     0x0D            Carriage Return
-0000018E : CNTL     0x0A            Line Feed
-0000018F : CNTL     0x0D            Carriage Return
-00000190 : CNTL     0x0A            Line Feed
-00000191 : TEXT                     And now Text encoded in UTF-8: 
-000001B0 : PCL      &t1008P         Text Parsing Method (UTF-8)
-000001B8 : PCL      (18N            Primary Symbol Set (Unicode)
-000001BD : PCL      (s0P            Primary Spacing (Fixed spacing)
-000001C2 : PCL      (s6H            Primary Pitch (Characters Per Inch)
-000001C4 : PCL      (s0S            Primary Style (Upright, solid)
-000001C6 : PCL      (s0B            Primary Stroke Weight (Medium, Book, or Text)
-000001C8 : PCL      (s4099T         Primary Typeface (Courier from AGFA)
-000001CD : TEXT                     £€
-000001D2 : PCL      %-12345X        Universal Exit Language
+000000CC : PCL      *c72W           User Defined Pattern
+0000011A : PCL      %0B             Enter HP-GL/2 Mode (Position pen at previous HP-GL/2 pen position)
+0000011E : HPGL     IN              Initialize
+00000121 : HPGL     SP              Select Pen
+00000125 : HPGL     CO              Comment
+00000159 : HPGL     SC              Screened Vectors
+00000167 : HPGL     SP              Select Pen
+0000016B : HPGL     CO              Comment
+0000018F : HPGL     SC              Screened Vectors
+0000019D : PCL      %0A             Enter PCL Mode (Position cursor at previous PCL cursor position)
+000001A1 : CNTL     0x0D            Carriage Return
+000001A2 : CNTL     0x0A            Line Feed
+000001A3 : CNTL     0x0D            Carriage Return
+000001A4 : CNTL     0x0A            Line Feed
+000001A5 : PCL      &p48X           Transparent Print Data
+000001DB : CNTL     0x0D            Carriage Return
+000001DC : CNTL     0x0A            Line Feed
+000001DD : CNTL     0x0D            Carriage Return
+000001DE : CNTL     0x0A            Line Feed
+000001DF : TEXT                     And now Text encoded in UTF-8: 
+000001FE : PCL      &t1008P         Text Parsing Method (UTF-8)
+00000206 : PCL      (18N            Primary Symbol Set (Unicode)
+0000020B : PCL      (s0P            Primary Spacing (Fixed spacing)
+00000210 : PCL      (s6H            Primary Pitch (Characters Per Inch)
+00000212 : PCL      (s0S            Primary Style (Upright, solid)
+00000214 : PCL      (s0B            Primary Stroke Weight (Medium, Book, or Text)
+00000216 : PCL      (s4099T         Primary Typeface (Courier from AGFA)
+0000021B : TEXT                     £€
+00000220 : PCL      %-12345X        Universal Exit Language

@@ -20,6 +20,12 @@ TEXT                     Printable text
                          >>> Parsing Method : Default, 1 byte per character
                          >>> Hexadecimal    : 62792050636C44756D7065722E
                          >>> Decoded        : by PclDumper.
+PCL      *c72W           User Defined Pattern
+                         >>> 00000000 00 00 01 00 00 10 00 20 FF FF FF FF 7F FF FF FE ....... ........
+                         >>> 00000010 3F FF FF FC 1F FF FF F8 0F FF FF F0 07 FF FF E0 ?...............
+                         >>> 00000020 03 FF FF C0 01 FF FF 80 00 FF FF 00 00 7F FE 00 ................
+                         >>> 00000030 00 3F FC 00 00 1F F8 00 00 0F F0 00 00 07 E0 00 .?..............
+                         >>> 00000040 00 03 C0 00 00 01 80 00                         ........
 PCL      %0B             Enter HP-GL/2 Mode (Position pen at previous HP-GL/2 pen position)
 HPGL     IN              Initialize
                          >>> IN
@@ -41,6 +47,9 @@ CNTL     0x0A            Line Feed
 CNTL     0x0D            Carriage Return
 CNTL     0x0A            Line Feed
 PCL      &p48X           Transparent Print Data
+                         >>> 00000000 41 6E 64 20 74 65 78 74 20 69 6E 20 50 43 4C 2D And text in PCL-
+                         >>> 00000010 43 6F 6D 6D 61 6E 64 20 22 54 72 61 6E 73 70 61 Command "Transpa
+                         >>> 00000020 72 65 6E 74 20 50 72 69 6E 74 20 44 61 74 61 22 rent Print Data"
 CNTL     0x0D            Carriage Return
 CNTL     0x0A            Line Feed
 CNTL     0x0D            Carriage Return

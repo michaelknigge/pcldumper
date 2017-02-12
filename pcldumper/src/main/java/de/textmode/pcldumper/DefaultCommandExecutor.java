@@ -16,8 +16,21 @@ package de.textmode.pcldumper;
  * limitations under the License.
  */
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
+import org.apache.commons.io.HexDump;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.LineIterator;
+
+import de.textmode.pclbox.ParameterizedPclCommand;
 import de.textmode.pclbox.PrinterCommand;
 
 /**
@@ -378,6 +391,46 @@ final class DefaultCommandExecutor extends PrinterCommandExecutor {
 
     @Override
     PrinterCommandDetails execute(final PrinterCommand command, final PclDumperContext context) {
-        return new PrinterCommandDetails(LOOKUP_MAP.get(command.toDisplayString()));
+        final String summary = LOOKUP_MAP.get(command.toDisplayString());
+
+        if (command instanceof ParameterizedPclCommand) {
+            final ParameterizedPclCommand cmd = (ParameterizedPclCommand) command;
+            final byte[] data = cmd.getDataSection();
+
+            if (data != null) {
+                return new PrinterCommandDetails(summary, createHexDump(data));
+            }
+        }
+
+        return new PrinterCommandDetails(summary);
+    }
+
+    private static List<String> createHexDump(byte[] data) {
+        // Let's be lazy here.... Let all the work be done by Apache Commons... This is not really
+        // a high-performance way to create the hex dump for us, but note that PCL-Dumper is not
+        // required to be a high-performance tool... So I guess it is "ok" here to be lazy...
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {
+            HexDump.dump(data, 0, baos, 0);
+        } catch (final IOException e) {
+            // An IOException should never ever been throws because we write to memory...
+            return Collections.<String>emptyList();
+        }
+
+        final byte[] hex = baos.toByteArray();
+        IOUtils.closeQuietly(baos);
+
+        final ByteArrayInputStream bais = new ByteArrayInputStream(hex);
+        final InputStreamReader reader = new InputStreamReader(bais, Charset.defaultCharset());
+        final LineIterator iter = new LineIterator(reader);
+
+        final List<String> result = new ArrayList<>();
+        while (iter.hasNext()) {
+            result.add(iter.next());
+        }
+
+        iter.close();
+
+        return result;
     }
 }

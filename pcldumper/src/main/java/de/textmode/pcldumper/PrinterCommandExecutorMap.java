@@ -34,6 +34,12 @@ final class PrinterCommandExecutorMap {
         EXECUTORS.put("(sT", new TypefaceFamilyCommandExecutor());
         EXECUTORS.put(")sT", new TypefaceFamilyCommandExecutor());
         EXECUTORS.put("&tP", new TextParsingMethodCommandExecutor());
+        // TODO EXECUTORS.put("(fW", new DefineSymbolSetExecutor());
+        // TODO EXECUTORS.put("(sW", new FontHeaderExecutor());
+        // TODO EXECUTORS.put("*cW", new UserDefinedPatternExecutor());
+        // TODO EXECUTORS.put("*bW", new TransferRasterDataExecutor());
+        // TODO EXECUTORS.put("*bV", new TransferRasterDataExecutor());
+        // TODO EXECUTORS.put("&aW", new UserDefinedPageExecutor());
     }
 
     /**

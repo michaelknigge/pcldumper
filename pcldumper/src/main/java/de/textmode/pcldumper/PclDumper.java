@@ -107,7 +107,7 @@ final class PclDumper implements PrinterCommandHandler, PrinterCommandVisitor {
 
     @Override
     public void handle(TextCommand command) {
-        // TODO  prettyPrint (for stuff < ASCII 32
+        // TODO  prettyPrint (for stuff < ASCII 32)
         final Charset charset = this.context.getTextParsingMethod().getCharset();
         if (this.verbose) {
             this.printPrinterCommandLine(command, "TEXT", "", command.getTextualDescription());
@@ -158,7 +158,7 @@ final class PclDumper implements PrinterCommandHandler, PrinterCommandVisitor {
 
         final PrinterCommandDetails details = EXECUTORS.executeFor(cmd, this.context);
         final String toPrint;
-        if (details != null && details.getSummary().length() > 0) {
+        if (details.getSummary().length() > 0) {
             toPrint = description + " (" + details.getSummary() + ")";
         } else {
             toPrint = description;
