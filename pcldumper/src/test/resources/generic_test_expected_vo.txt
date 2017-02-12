@@ -1,5 +1,5 @@
-PCL-Dumper 1.0 - see https://github.com/michaelknigge/pcldumper
----------------------------------------------------------------
+PCL-Dumper 1.0 - https://github.com/michaelknigge/pcldumper
+-----------------------------------------------------------------------------
  
 00000000 : PCL      %-12345X        Universal Exit Language
 00000009 : PJL      @PJL            @PJL

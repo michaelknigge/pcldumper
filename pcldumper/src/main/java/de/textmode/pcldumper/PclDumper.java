@@ -43,6 +43,9 @@ final class PclDumper implements PrinterCommandHandler, PrinterCommandVisitor {
 
     private static final PrinterCommandExecutorMap EXECUTORS = new PrinterCommandExecutorMap();
 
+    private static final String PCLBOX_VERSION = "1.0";
+    private static final String PCLBOX_URL = "https://github.com/michaelknigge/pcldumper";
+
     private static final String INDENTION_WITH_OFFSETS = "                                    ";
     private static final String INDENTION_WITHOUT_OFFSETS = "                         ";
 
@@ -79,10 +82,9 @@ final class PclDumper implements PrinterCommandHandler, PrinterCommandVisitor {
      */
     void dump(final InputStream in, final PrintStream out) throws IOException, PclException {
 
-        // TODO Get version number from JAR file
         if (!this.quiet) {
-            out.println("PCL-Dumper 1.0 - see https://github.com/michaelknigge/pcldumper");
-            out.println("---------------------------------------------------------------");
+            out.println("PCL-Dumper " + PCLBOX_VERSION + " - " + PCLBOX_URL);
+            out.println("-----------------------------------------------------------------------------");
             out.println(" ");
         }
 
