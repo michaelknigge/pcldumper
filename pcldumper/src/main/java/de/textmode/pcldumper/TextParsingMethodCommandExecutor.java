@@ -27,38 +27,38 @@ import de.textmode.pcldumper.PclDumperContext.TextParsingMethod;
 final class TextParsingMethodCommandExecutor extends PrinterCommandExecutor {
 
     @Override
-    String execute(PrinterCommand command, PclDumperContext context) {
+    PrinterCommandDetails execute(PrinterCommand command, PclDumperContext context) {
         final ParameterizedPclCommand cmd = (ParameterizedPclCommand) command;
 
         switch (Integer.parseInt(cmd.getValue())) {
         case 0:
         case 1:
             context.setTextParsingMethod(TextParsingMethod.DEFAULT);
-            return "One byte per character";
+            return new PrinterCommandDetails("One byte per character");
 
         case 21:
             context.setTextParsingMethod(TextParsingMethod.ASIAN_SEVEN_BIT);
-            return "One or two bytes per character, Asian 7 bit";
+            return new PrinterCommandDetails("One or two bytes per character, Asian 7 bit");
 
         case 31:
             context.setTextParsingMethod(TextParsingMethod.SHIFT_JIS);
-            return "One or two bytes per character, Shift-JIS";
+            return new PrinterCommandDetails("One or two bytes per character, Shift-JIS");
 
         case 38:
             context.setTextParsingMethod(TextParsingMethod.ASIAN_EIGHT_BIT);
-            return "One or two bytes per character, Asian 8 bit";
+            return new PrinterCommandDetails("One or two bytes per character, Asian 8 bit");
 
         case 83:
             context.setTextParsingMethod(TextParsingMethod.UNICODE);
-            return "Unicode";
+            return new PrinterCommandDetails("Unicode");
 
         case 1008:
             context.setTextParsingMethod(TextParsingMethod.UTF_8);
-            return "UTF-8";
+            return new PrinterCommandDetails("UTF-8");
 
         default:
             context.setTextParsingMethod(TextParsingMethod.DEFAULT);
-            return "Unknown text parsing method";
+            return new PrinterCommandDetails("Unknown text parsing method");
         }
     }
 }

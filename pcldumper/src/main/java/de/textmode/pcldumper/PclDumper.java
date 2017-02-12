@@ -107,64 +107,73 @@ final class PclDumper implements PrinterCommandHandler, PrinterCommandVisitor {
 
     @Override
     public void handle(TextCommand command) {
-        // TODO  check "Text Parsing Method" -> see https://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html
-        // TODO  also do binary display?
-        // TODO  display in next line?
         // TODO  prettyPrint (for stuff < ASCII 32
         final Charset charset = this.context.getTextParsingMethod().getCharset();
         if (this.verbose) {
-            this.printLine(command, "TEXT", "", command.getTextualDescription());
+            this.printPrinterCommandLine(command, "TEXT", "", command.getTextualDescription());
 
-            this.printLine("Length (Bytes) : " + command.getText().length);
-            this.printLine("Parsing Method : " + this.context.getTextParsingMethod());
-            this.printLine("Hexadecimal    : " + DatatypeConverter.printHexBinary(command.getText()));
+            this.printIndentedLine("Length (Bytes) : " + command.getText().length);
+            this.printIndentedLine("Parsing Method : " + this.context.getTextParsingMethod());
+            this.printIndentedLine("Hexadecimal    : " + DatatypeConverter.printHexBinary(command.getText()));
 
-            this.printLine("Decoded        : " + new String(command.getText(), charset));
+            this.printIndentedLine("Decoded        : " + new String(command.getText(), charset));
         } else {
-            this.printLine(command, "TEXT", "", new String(command.getText(), charset));
+            this.printPrinterCommandLine(command, "TEXT", "", new String(command.getText(), charset));
         }
     }
 
     @Override
     public void handle(ControlCharacterCommand command) {
-        this.printLine(command, "CNTL", command.toDisplayString(), command.getTextualDescription());
+        this.printPrinterCommandLine(command, "CNTL", command.toDisplayString(), command.getTextualDescription());
     }
 
     @Override
     public void handle(TwoBytePclCommand command) {
-        this.printLine(command, "PCL", command.toDisplayString(), command.getTextualDescription());
+        this.printPrinterCommandLine(command, "PCL", command.toDisplayString(), command.getTextualDescription());
     }
 
     @Override
     public void handle(ParameterizedPclCommand command) {
-        this.printLine(command, "PCL", command.toDisplayString(), command.getTextualDescription());
+        this.printPrinterCommandLine(command, "PCL", command.toDisplayString(), command.getTextualDescription());
     }
 
     @Override
     public void handle(PjlCommand command) {
-        this.printLine(command, "PJL", "@PJL", command.toDisplayString());
+        this.printPrinterCommandLine(command, "PJL", "@PJL", command.toDisplayString());
     }
 
     @Override
     public void handle(HpglCommand command) {
-        this.printLine(command, "HPGL", command.toCommandString(), command.getTextualDescription());
+        this.printPrinterCommandLine(command, "HPGL", command.toCommandString(), command.getTextualDescription());
         if (this.verbose) {
-            this.printLine(command.toDisplayString());
+            this.printIndentedLine(command.toDisplayString());
         }
     }
 
-    private void printLine(PrinterCommand cmd, final String type, final String command, final String description) {
-        final String details = EXECUTORS.executeFor(cmd, this.context);
+    private void printPrinterCommandLine(
+            PrinterCommand cmd,
+            final String type,
+            final String command,
+            final String description) {
+
+        final PrinterCommandDetails details = EXECUTORS.executeFor(cmd, this.context);
         final String toPrint;
-        if (details != null && details.length() > 0) {
-            toPrint = description + " (" + details + ")";
+        if (details != null && details.getSummary().length() > 0) {
+            toPrint = description + " (" + details.getSummary() + ")";
         } else {
             toPrint = description;
         }
+
         this.outputStream.println(String.format("%1$-8s %2$-15s %3$s", type, command, toPrint));
+
+        if (this.verbose) {
+            for (final String s : details.getDetails()) {
+                this.printIndentedLine(s);
+            }
+        }
     }
 
-    private void printLine(final String text) {
+    private void printIndentedLine(final String text) {
         if (this.showOffsets) {
             this.outputStream.print(INDENTION_WITH_OFFSETS);
         } else {

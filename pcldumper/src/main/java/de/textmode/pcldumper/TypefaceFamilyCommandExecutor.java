@@ -1111,7 +1111,7 @@ final class TypefaceFamilyCommandExecutor extends PrinterCommandExecutor {
     }
 
     @Override
-    final String execute(final PrinterCommand command, final PclDumperContext context) {
+    final PrinterCommandDetails execute(final PrinterCommand command, final PclDumperContext context) {
         final ParameterizedPclCommand cmd = (ParameterizedPclCommand) command;
         final int value = Integer.parseInt(cmd.getValue());
         final int vendorValue = getVendorValue(value);
@@ -1135,7 +1135,7 @@ final class TypefaceFamilyCommandExecutor extends PrinterCommandExecutor {
             sb.append("an unknown vendor");
         }
 
-        return sb.toString();
+        return new PrinterCommandDetails(sb.toString());
     }
 
     private static int getVendorValue(final int value) {

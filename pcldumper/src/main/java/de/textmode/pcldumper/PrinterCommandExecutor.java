@@ -28,5 +28,5 @@ abstract class PrinterCommandExecutor {
     /**
      * Returns more specific information of the given {@link PrinterCommand}.
      */
-    abstract String execute(final PrinterCommand command, final PclDumperContext context);
+    abstract PrinterCommandDetails execute(final PrinterCommand command, final PclDumperContext context);
 }

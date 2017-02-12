@@ -377,7 +377,7 @@ final class DefaultCommandExecutor extends PrinterCommandExecutor {
     }
 
     @Override
-    String execute(final PrinterCommand command, final PclDumperContext context) {
-        return LOOKUP_MAP.get(command.toDisplayString());
+    PrinterCommandDetails execute(final PrinterCommand command, final PclDumperContext context) {
+        return new PrinterCommandDetails(LOOKUP_MAP.get(command.toDisplayString()));
     }
 }

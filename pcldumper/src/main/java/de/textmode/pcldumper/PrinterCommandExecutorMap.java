@@ -45,7 +45,7 @@ final class PrinterCommandExecutorMap {
      *
      * @return a String containing more information about the given {@link PrinterCommand} or <code>null</code>.
      */
-    String executeFor(final PrinterCommand command, final PclDumperContext context) {
+    PrinterCommandDetails executeFor(final PrinterCommand command, final PclDumperContext context) {
         final PrinterCommandExecutor executor = EXECUTORS.get(command.toCommandString());
         if (executor != null) {
             return executor.execute(command, context);
