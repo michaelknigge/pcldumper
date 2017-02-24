@@ -12,3 +12,18 @@ before_script:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "ChQyQEE3i9NKrEEPfOm1MoLQ362t3TeIijbqdp56UGEcRRJPkSqLf9HemhTdFgSx4RIwAZsAqyWjWyNEE7f5y9TLSkX8vzN7RUbv8LbnfRUkLc8BJkI1N2A4zJ2VGoKavE/uewI9oo3ptl5pye7IDRY+r9iG1latLCnLVCOW+2maa2/4EUsaC+EpFRYHkoZd7/h6MHDWnR7EAcCJ6IIeeRAuoMa+/ZjVAPZaMT63fAlsBND9uAvLKeW0FtgyGZLuwzWJuOX9vuF7YSh76IlGgRvbGypd3MuWQUiIgI5xlXvAItHn7GRi46JIVn98sK9C4fD9FL4WP0XPYD3KJ1nPoZwY9Qz97U++BA+s00y/eTXaN0KjeDrNn8xmxX6PfSZu9d1Wc+LkVCTC8reO0/NCYYGn7tVQrJxploqTjpawjBcQSvZiJ43f38NGtHZ88hNTmRvasHiJk1gv4nhY66a+IDOU3CxBpDfPG7TTtdhIvKC1CpFltAF6nGtQL/pZNhMlcByk53oefWmQcyDVzzP10wfQ5cCBunKuIiKsHxstwV0CT7Ef06fDuJR6efRhNtLfwUTZ6j/hSd72GgcFImOFQA+VYQNzGR1s9TxgLqTOZE+1BtWE+VAxKzb85+OsEAVJJJ1i8oWplpnINWz3v9p72fZIsfIhHfDtIm0aMFAr9yA="
+
+addons:
+  coverity_scan:
+    project:
+      name: "michaelknigge/pcldumper"
+      description: "Build submitted via Travis CI"
+    notification_email: michael.knigge@gmx.de
+    build_command_prepend: "./gradlew clean"
+    build_command:   "./gradlew"
