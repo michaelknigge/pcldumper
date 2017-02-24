@@ -27,3 +27,4 @@ addons:
     notification_email: michael.knigge@gmx.de
     build_command_prepend: "./gradlew clean"
     build_command:   "./gradlew"
+    branch_pattern: master
