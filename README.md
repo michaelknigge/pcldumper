@@ -6,10 +6,12 @@ Java command line tool (and library as well) for dumping [PCL](https://en.wikipe
 [Apache Commons-IO](http://commons.apache.org/proper/commons-io/) is required in any case. If pcldumper is used as a command line tool then [Apache Commons-CLI](http://commons.apache.org/proper/commons-cli/) is also required.
 
 # Usage (command line tool)
-For your convenience pcldumper comes in two flavours - as a regular JAR and as a "fat jar" that contains all required dependencies. The fat jar is very hendy if pcldumper is used as a command line tool because you do not have to specify the Java CLASSPATH with all the required dependencies yourself. Just invoke the pcldumper from a command line without any additional parameter to get a list of all available options:
+For your convenience pcldumper comes in two flavours - as a regular JAR and as a single runnable JAR (called a "fat JAR") that contains all required dependencies. This runnable JAR very handy if pcldumper is used as a command line tool because you do not have to specify the Java CLASSPATH with all the required dependencies yourself.
+
+Just invoke the pcldumper from a command line without any additional parameter to get a list of all available options:
 
 ```
-$ java -jar pcldumper-1.0-all.jar -h```
+$ java -jar pcldumper-1.0-all.jar -h
 usage: pcldumper [OPTION]... [FILE]
 
 PCL-Dumper reads a PCL printer data stream and dumps every printer
