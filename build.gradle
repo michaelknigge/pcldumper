@@ -1,4 +1,4 @@
-defaultTasks 'clean', 'javadoc', 'test', 'check', 'checkstyleMain', 'checkstyleTest', 'assemble'
+defaultTasks 'clean', 'javadoc', 'test', 'check', 'checkstyleMain', 'checkstyleTest', 'assemble', 'shadowJar'
 
 buildscript {
     repositories {
@@ -7,6 +7,7 @@ buildscript {
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         classpath 'net.researchgate:gradle-release:2.4.0'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
     }
 }
 
@@ -20,6 +21,7 @@ subprojects {
     apply plugin: 'maven-publish'
     apply plugin: 'com.jfrog.bintray'
     apply plugin: 'net.researchgate.release'
+    apply plugin: 'com.github.johnrengelman.shadow'
 	
     version = "1.0"
 
@@ -82,17 +84,6 @@ subprojects {
                        "Main-Class": "de.textmode.pcldumper.Main",
                        "Class-Path": configurations.compile.collect { it.getName() }.join(' '))
         }
-    }
-
-    task fatJar(type: Jar) {
-        manifest {
-            attributes("Implementation-Title": "pcldumper",
-                       "Implementation-Version": version,
-                       "Main-Class": "de.textmode.pcldumper.Main")
-        }
-        baseName = project.name + '-all'
-        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-        with jar
     }
 
     bintray {
