@@ -39,7 +39,7 @@ import de.textmode.pclbox.TwoBytePclCommand;
 /**
  * The {@link PclDumper} parses a PCL file and prints all printer commands.
  */
-final class PclDumper implements PrinterCommandHandler, PrinterCommandVisitor {
+public final class PclDumper implements PrinterCommandHandler, PrinterCommandVisitor {
 
     private static final PrinterCommandExecutorMap EXECUTORS = new PrinterCommandExecutorMap();
 
@@ -80,7 +80,7 @@ final class PclDumper implements PrinterCommandHandler, PrinterCommandVisitor {
      * @throws PclException if the parsed PCL data stream contains an error
      * @throws IOException if an I/O error occurs
      */
-    void dump(final InputStream in, final PrintStream out) throws IOException, PclException {
+    public void dump(final InputStream in, final PrintStream out) throws IOException, PclException {
 
         if (!this.quiet) {
             out.println("PCL-Dumper " + PCLBOX_VERSION + " - " + PCLBOX_URL);

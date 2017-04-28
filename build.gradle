@@ -22,7 +22,7 @@ subprojects {
     apply plugin: 'com.jfrog.bintray'
     apply plugin: 'net.researchgate.release'
     apply plugin: 'com.github.johnrengelman.shadow'
-	
+
     version = "1.0"
 
     check.dependsOn jacocoTestReport
@@ -34,11 +34,11 @@ subprojects {
         sourceCompatibility = '1.7'
         targetCompatibility = '1.7'
     }
-    
+
     javadoc {
         options.encoding = 'UTF-8'
     }
-    
+
     repositories {
         jcenter()
     }
