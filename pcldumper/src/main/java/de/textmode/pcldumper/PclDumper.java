@@ -43,7 +43,7 @@ public final class PclDumper implements PrinterCommandHandler, PrinterCommandVis
 
     private static final PrinterCommandExecutorMap EXECUTORS = new PrinterCommandExecutorMap();
 
-    private static final String PCLDUMPER_VERSION = "1.0";
+    private static final String PCLDUMPER_VERSION = "1.2";
     private static final String PCLDUMPER_URL = "https://github.com/michaelknigge/pcldumper";
 
     private static final String INDENTION_WITH_OFFSETS = "                                    ";
@@ -65,7 +65,7 @@ public final class PclDumper implements PrinterCommandHandler, PrinterCommandVis
      * @param showHpGl   true if HP/GL commands should be printed.
      * @param verbose   true if more details should be printed.
      */
-    PclDumper(final boolean quiet, final boolean showOffsets, boolean verbose) {
+    PclDumper(final boolean quiet, final boolean showOffsets, final boolean verbose) {
         this.quiet = quiet;
         this.showOffsets = showOffsets;
         this.verbose = verbose;
@@ -97,7 +97,7 @@ public final class PclDumper implements PrinterCommandHandler, PrinterCommandVis
     }
 
     @Override
-    public void handlePrinterCommand(PrinterCommand command) {
+    public void handlePrinterCommand(final PrinterCommand command) throws IOException {
         if (this.showOffsets) {
             this.outputStream.print(String.format("%08X : ", command.getOffset()));
         }
@@ -106,7 +106,7 @@ public final class PclDumper implements PrinterCommandHandler, PrinterCommandVis
     }
 
     @Override
-    public void handle(TextCommand command) {
+    public void handle(final TextCommand command) {
         // TODO  prettyPrint (for stuff < ASCII 32)
         final Charset charset = this.context.getTextParsingMethod().getCharset();
         if (this.verbose) {
@@ -123,27 +123,27 @@ public final class PclDumper implements PrinterCommandHandler, PrinterCommandVis
     }
 
     @Override
-    public void handle(ControlCharacterCommand command) {
+    public void handle(final ControlCharacterCommand command) {
         this.printPrinterCommandLine(command, "CNTL", command.toDisplayString(), command.getTextualDescription());
     }
 
     @Override
-    public void handle(TwoBytePclCommand command) {
+    public void handle(final TwoBytePclCommand command) {
         this.printPrinterCommandLine(command, "PCL", command.toDisplayString(), command.getTextualDescription());
     }
 
     @Override
-    public void handle(ParameterizedPclCommand command) {
+    public void handle(final ParameterizedPclCommand command) {
         this.printPrinterCommandLine(command, "PCL", command.toDisplayString(), command.getTextualDescription());
     }
 
     @Override
-    public void handle(PjlCommand command) {
+    public void handle(final PjlCommand command) {
         this.printPrinterCommandLine(command, "PJL", "@PJL", command.toDisplayString());
     }
 
     @Override
-    public void handle(HpglCommand command) {
+    public void handle(final HpglCommand command) {
         this.printPrinterCommandLine(command, "HPGL", command.toCommandString(), command.getTextualDescription());
         if (this.verbose) {
             this.printIndentedLine(command.toDisplayString());
@@ -151,7 +151,7 @@ public final class PclDumper implements PrinterCommandHandler, PrinterCommandVis
     }
 
     private void printPrinterCommandLine(
-            PrinterCommand cmd,
+            final PrinterCommand cmd,
             final String type,
             final String command,
             final String description) {
