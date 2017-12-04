@@ -81,7 +81,10 @@ subprojects {
         manifest {
             attributes("Implementation-Title": "pcldumper",
                        "Implementation-Version": version,
+                       "Implementation-Vendor": "https://github.com/michaelknigge/pcldumper",
+                       "Specification-Title": "Java command line tool for dumping PCL printer data streams",
                        "Main-Class": "de.textmode.pcldumper.Main",
+                       "Created-By": System.getProperty('java.version') + ' (' + System.getProperty('java.vendor') + ')',
                        "Class-Path": configurations.compile.collect { it.getName() }.join(' '))
         }
     }
