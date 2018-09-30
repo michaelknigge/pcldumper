@@ -406,6 +406,10 @@ final class DefaultCommandExecutor extends PrinterCommandExecutor {
     }
 
     private static List<String> createHexDump(byte[] data) {
+        if (data.length == 0) {
+            return Collections.emptyList();
+        }
+
         // Let's be lazy here.... Let all the work be done by Apache Commons... This is not really
         // a high-performance way to create the hex dump for us, but note that PCL-Dumper is not
         // required to be a high-performance tool... So I guess it is "ok" here to be lazy...
