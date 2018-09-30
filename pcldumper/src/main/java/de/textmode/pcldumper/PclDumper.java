@@ -22,8 +22,6 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
 
-import javax.xml.bind.DatatypeConverter;
-
 import de.textmode.pclbox.ControlCharacterCommand;
 import de.textmode.pclbox.HpglCommand;
 import de.textmode.pclbox.ParameterizedPclCommand;
@@ -48,6 +46,8 @@ public final class PclDumper implements PrinterCommandHandler, PrinterCommandVis
 
     private static final String INDENTION_WITH_OFFSETS = "                                    ";
     private static final String INDENTION_WITHOUT_OFFSETS = "                         ";
+
+    private static final char[] HEX_DIGITS = "0123456789ABCDEF".toCharArray();
 
     private final boolean quiet;
     private final boolean verbose;
@@ -114,8 +114,7 @@ public final class PclDumper implements PrinterCommandHandler, PrinterCommandVis
 
             this.printIndentedLine("Length (Bytes) : " + command.getText().length);
             this.printIndentedLine("Parsing Method : " + this.context.getTextParsingMethod());
-            this.printIndentedLine("Hexadecimal    : " + DatatypeConverter.printHexBinary(command.getText()));
-
+            this.printIndentedLine("Hexadecimal    : " + bytesToHexString(command.getText()));
             this.printIndentedLine("Decoded        : " + new String(command.getText(), charset));
         } else {
             this.printPrinterCommandLine(command, "TEXT", "", new String(command.getText(), charset));
@@ -148,6 +147,18 @@ public final class PclDumper implements PrinterCommandHandler, PrinterCommandVis
         if (this.verbose) {
             this.printIndentedLine(command.toDisplayString());
         }
+    }
+
+    public static String bytesToHexString(byte[] data) {
+        final char[] hexChars = new char[data.length * 2];
+
+        for (int ix = 0; ix < data.length; ix++) {
+            final int value = data[ix] & 0xFF;
+            hexChars[ix * 2] = HEX_DIGITS[value >>> 4];
+            hexChars[ix * 2 + 1] = HEX_DIGITS[value & 0x0F];
+        }
+
+        return new String(hexChars);
     }
 
     private void printPrinterCommandLine(
