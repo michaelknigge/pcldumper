@@ -397,7 +397,7 @@ final class DefaultCommandExecutor extends PrinterCommandExecutor {
             final ParameterizedPclCommand cmd = (ParameterizedPclCommand) command;
             final byte[] data = cmd.getDataSection();
 
-            if (data != null) {
+            if (data != null && data.length > 0) {
                 return new PrinterCommandDetails(summary, createHexDump(data));
             }
         }
