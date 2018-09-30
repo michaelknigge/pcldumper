@@ -11,7 +11,7 @@ For your convenience pcldumper comes in two flavours - as a regular JAR and as a
 Just invoke the pcldumper from a command line without any additional parameter to get a list of all available options:
 
 ```
-$ java -jar pcldumper-1.2-all.jar -h
+$ java -jar pcldumper-1.3-all.jar -h
 usage: pcldumper [OPTION]... [FILE]
 
 PCL-Dumper reads a PCL printer data stream and dumps every printer
@@ -33,7 +33,7 @@ If you want to use pcldumper in your own code to create PCL dumps, you need to u
 Dump of a PCL file without offsets and without details:
 
 ```
-$ java -jar pcldumper-1.2-all.jar -q myfile.pcl
+$ java -jar pcldumper-1.3-all.jar -q myfile.pcl
 PCL      %-12345X        Universal Exit Language
 PJL      @PJL            @PJL
 PJL      @PJL            @PJL COMMENT THIS IS A TEST CASE
@@ -59,7 +59,7 @@ PCL      %-12345X        Universal Exit Language
 Dump of a PCL file with offsets and with details:
 
 ```
-$ java -jar pcldumper-1.2-all.jar -qvo myfile.pcl
+$ java -jar pcldumper-1.3-all.jar -qvo myfile.pcl
 00000000 : PCL      %-12345X        Universal Exit Language
 00000009 : PJL      @PJL            @PJL
 0000000F : PJL      @PJL            @PJL COMMENT THIS IS A TEST CASE
