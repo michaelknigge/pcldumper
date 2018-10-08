@@ -41,8 +41,9 @@ public final class PclDumper implements PrinterCommandHandler, PrinterCommandVis
 
     private static final PrinterCommandExecutorMap EXECUTORS = new PrinterCommandExecutorMap();
 
-    private static final String PCLDUMPER_VERSION = "1.2";
-    private static final String PCLDUMPER_URL = "https://github.com/michaelknigge/pcldumper";
+    private static final Package PCLDUMPER_PACKAGE = PclDumper.class.getPackage();
+    private static final String PCLDUMPER_DEFAULT_VERSION = "0.0";
+    private static final String PCLDUMPER_DEFAULT_URL = "https://github.com/michaelknigge/pcldumper";
 
     private static final String INDENTION_WITH_OFFSETS = "                                    ";
     private static final String INDENTION_WITHOUT_OFFSETS = "                         ";
@@ -83,7 +84,7 @@ public final class PclDumper implements PrinterCommandHandler, PrinterCommandVis
     public void dump(final InputStream in, final PrintStream out) throws IOException, PclException {
 
         if (!this.quiet) {
-            out.println("PCL-Dumper " + PCLDUMPER_VERSION + " - " + PCLDUMPER_URL);
+            out.println("PCL-Dumper " + this.getImplementationVersion() + " - " + this.getImplementationVendor());
             out.println("-----------------------------------------------------------------------------");
             out.println(" ");
         }
@@ -159,6 +160,26 @@ public final class PclDumper implements PrinterCommandHandler, PrinterCommandVis
         }
 
         return new String(hexChars);
+    }
+
+    private String getImplementationVersion() {
+        if (PCLDUMPER_PACKAGE == null || PCLDUMPER_PACKAGE.getImplementationVersion() == null) {
+            // This is only used for our JUnit tests because if we run them out of our IDE there is no
+            // ready to use MANIFEST.MF where we can get the current version from....
+            return PCLDUMPER_DEFAULT_VERSION;
+        } else {
+            return PCLDUMPER_PACKAGE.getImplementationVersion();
+        }
+    }
+
+    private String getImplementationVendor() {
+        if (PCLDUMPER_PACKAGE == null || PCLDUMPER_PACKAGE.getImplementationVendor() == null) {
+            // This is only used for our JUnit tests because if we run them out of our IDE there is no
+            // ready to use MANIFEST.MF where we can get the current URL from....
+            return PCLDUMPER_DEFAULT_URL;
+        } else {
+            return PCLDUMPER_PACKAGE.getImplementationVendor();
+        }
     }
 
     private void printPrinterCommandLine(
