@@ -21,11 +21,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.help.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
@@ -77,14 +79,12 @@ public final class Main {
             builder.showOffsets(line.hasOption("offsets"));
             builder.verbose(line.hasOption("verbose"));
 
-            try (final InputStream in = new FileInputStream(fileNames[0])) {
+            try (final InputStream in = Files.newInputStream(Paths.get(fileNames[0]))) {
                 if (line.hasOption("file")) {
                     dumpToFile(builder.build(), in, line.getOptionValue("file"));
                 } else {
                     dumpToStandardOutput(builder.build(), in);
                 }
-            } catch (final FileNotFoundException e) {
-                showError(e.getMessage());
             } catch (final IOException e) {
                 showError(e.getMessage());
             }
@@ -129,9 +129,23 @@ public final class Main {
      *
      * @param options   all valid command line options.
      */
-    private static final void showHelpAndExit(final Options options) {
-        final HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp(HELP_USAGE, HELP_HEADER, options, HELP_FOOTER);
+    private static void showHelpAndExit(final Options options) {
+
+        final HelpFormatter formatter = HelpFormatter
+                .builder()
+                .get();
+
+        try {
+            formatter.printHelp(
+                    HELP_USAGE,
+                    HELP_HEADER,
+                    options.getOptions(),
+                    HELP_FOOTER,
+                    false);
+        } catch (IOException e) {
+            // Do nothing...
+        }
+
         System.exit(1);
     }
 
@@ -140,7 +154,7 @@ public final class Main {
      *
      * @param message   the message to show.
      */
-    private static final void showError(final String message) {
+    private static void showError(final String message) {
         System.err.println();
         System.err.println("**********************************************************************");
         System.err.println();
