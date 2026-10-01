@@ -27,6 +27,25 @@ Please report issues at https://github.com/michaelknigge/pcldumper/issues
 ```
 
 # Usage (Java library)
+Because pcldumper is available at [Maven Central](https://central.sonatype.com/artifact/de.textmode.pcldumper/pcldumper), it is very easy to use pcldumper in your projects. At first, add pcldumper to your build file. If you use Maven, add the following to your build file:
+
+```xml
+<dependency>
+  <groupId>de.textmode.pcldumper</groupId>
+  <artifactId>pcldumper</artifactId>
+  <version>1.5</version>
+  <type>pom</type>
+</dependency>
+```
+
+If you use Gradle, add this:
+
+```
+dependencies {
+    implementation 'de.textmode.pcldumper:pcldumper:1.5'
+}
+```
+
 If you want to use pcldumper in your own code to create PCL dumps, you need to use the `PclDumperBuilder` to build a `PclDumper`. Then invoke the method `dump` of the `PclDumper` to create the dump. That's all.
 
 # Examples
