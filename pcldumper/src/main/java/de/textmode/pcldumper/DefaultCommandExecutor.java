@@ -433,7 +433,7 @@ final class DefaultCommandExecutor extends PrinterCommandExecutor {
             result.add(iter.next());
         }
 
-        iter.close();
+        IOUtils.closeQuietly(iter);
 
         return result;
     }
