@@ -127,6 +127,9 @@ subprojects {
         }
     }
 
+    // Just a note to myself... Publish to maven central with:
+    //
+    // "gradlew clean publishToSonatype closeAndReleaseSonatypeStagingRepository"
     publishing {
 
         publications {
