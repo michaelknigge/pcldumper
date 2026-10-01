@@ -150,7 +150,7 @@ public final class PclDumper implements PrinterCommandHandler, PrinterCommandVis
         }
     }
 
-    public static String bytesToHexString(byte[] data) {
+    private static String bytesToHexString(byte[] data) {
         final char[] hexChars = new char[data.length * 2];
 
         for (int ix = 0; ix < data.length; ix++) {
