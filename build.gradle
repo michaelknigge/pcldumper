@@ -15,6 +15,7 @@ defaultTasks 'clean',
         'assemble',
         'shadowJar'
 
+
 nexusPublishing {
     repositories {
         sonatype {
@@ -38,7 +39,12 @@ nexusPublishing {
 }
 
 
+group = 'de.textmode.pcldumper'
+version = '1.4'
+
+
 subprojects {
+
     apply plugin: 'java'
     apply plugin: 'eclipse'
     apply plugin: 'checkstyle'
@@ -50,9 +56,8 @@ subprojects {
     apply plugin: 'com.gradleup.shadow'
     apply plugin: 'com.github.spotbugs'
 
-
-    group = 'de.textmode.pcldumper'
-    version = '1.4'
+    group = rootProject.group
+    version = rootProject.version
 
     repositories {
         mavenCentral()
@@ -61,7 +66,7 @@ subprojects {
     dependencies {
         implementation 'commons-cli:commons-cli:1.11.0'
         implementation 'commons-io:commons-io:2.22.0'
-        implementation 'de.textmode.pclbox:pclbox:2.2'
+        implementation 'de.textmode.pclbox:pclbox:2.5'
 
         testImplementation 'junit:junit:4.13.2'
         testImplementation 'commons-io:commons-io:2.22.0'
@@ -107,10 +112,10 @@ subprojects {
     tasks.named('jar') {
         manifest {
             attributes(
+                    'Specification-Title': 'Java command line tool for dumping PCL printer data streams',
                     'Implementation-Title': 'pcldumper',
                     'Implementation-Version': project.version,
                     'Implementation-Vendor': 'https://github.com/michaelknigge/pcldumper',
-                    'Specification-Title': 'Java command line tool for dumping PCL printer data streams',
                     'Main-Class': 'de.textmode.pcldumper.Main',
 
                     'Created-By':
@@ -119,7 +124,6 @@ subprojects {
             )
         }
     }
-
 
     publishing {
 
@@ -135,8 +139,8 @@ subprojects {
 
 
                 pom {
-
                     name = 'pcldumper'
+
                     description = 'Java command line tool for dumping PCL printer data streams'
                     url = 'https://github.com/michaelknigge/pcldumper'
 
@@ -155,10 +159,17 @@ subprojects {
                         }
                     }
 
+
                     scm {
                         connection = 'scm:git:git://github.com/michaelknigge/pcldumper.git'
                         developerConnection = 'scm:git:ssh://git@github.com/michaelknigge/pcldumper.git'
                         url = 'https://github.com/michaelknigge/pcldumper'
+                    }
+
+
+                    issueManagement {
+                        system = 'GitHub'
+                        url = 'https://github.com/michaelknigge/pcldumper/issues'
                     }
                 }
             }
@@ -172,6 +183,8 @@ subprojects {
         def signingPassword = providers.gradleProperty('signingPassword').orNull
 
         if (signingKey != null) {
+            signingKey = signingKey.replace('\\n', '\n')
+
             useInMemoryPgpKeys(
                     signingKey,
                     signingPassword
