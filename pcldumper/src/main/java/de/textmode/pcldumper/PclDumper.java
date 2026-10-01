@@ -33,6 +33,7 @@ import de.textmode.pclbox.PrinterCommandHandler;
 import de.textmode.pclbox.PrinterCommandVisitor;
 import de.textmode.pclbox.TextCommand;
 import de.textmode.pclbox.TwoBytePclCommand;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * The {@link PclDumper} parses a PCL file and prints all printer commands.
@@ -63,7 +64,6 @@ public final class PclDumper implements PrinterCommandHandler, PrinterCommandVis
      *
      * @param quiet   true if no header line should be printed.
      * @param showOffsets   true if offsets should be printed.
-     * @param showHpGl   true if HP/GL commands should be printed.
      * @param verbose   true if more details should be printed.
      */
     PclDumper(final boolean quiet, final boolean showOffsets, final boolean verbose) {
@@ -81,6 +81,10 @@ public final class PclDumper implements PrinterCommandHandler, PrinterCommandVis
      * @throws PclException if the parsed PCL data stream contains an error
      * @throws IOException if an I/O error occurs
      */
+    @SuppressFBWarnings(
+            value = "EI_EXPOSE_REP2",
+            justification = "The supplied InputStream is intentionally passed to PclParser."
+    )
     public void dump(final InputStream in, final PrintStream out) throws IOException, PclException {
 
         if (!this.quiet) {
