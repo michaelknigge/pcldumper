@@ -21,8 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -37,8 +36,6 @@ public final class PclDumperTest extends TestCase {
     // Set this to true to overwrite the "expected files". Note that the JAR needs to be rebuilt
     // because overwriting the files will not update the files bundled with the JAR...
     private static final boolean OVERWRITE_EXTECTED_FILES = false;
-
-    private static final Charset ISO_8859_1 = Charset.forName("iso-8859-1");
 
     private static final String PCL_SUFFIX = ".pcl";
     private static final String EXPECTED_STANDARD_SUFFIX = "_expected_s.txt";
@@ -109,10 +106,19 @@ public final class PclDumperTest extends TestCase {
 
         try (final InputStream expected = this.getResourceAsStream(expectedStreamName)) {
             final byte[] expectedBytes = IOUtils.toByteArray(expected);
+
+            // Windows vs. Linux might need a normalization of the Strings due to
+            // different line endings (CRLF vs. LF).
             if (!Arrays.equals(actual, expectedBytes)) {
-                assertEquals(
-                        ISO_8859_1.decode(ByteBuffer.wrap(expectedBytes)),
-                        ISO_8859_1.decode(ByteBuffer.wrap(actual)));
+                final String expectedNormalized = new String(expectedBytes, StandardCharsets.ISO_8859_1)
+                        .replace("\r\n", "\n")
+                        .replace("\r", "\n");
+
+                final String expectedActual = new String(actual, StandardCharsets.ISO_8859_1)
+                        .replace("\r\n", "\n")
+                        .replace("\r", "\n");
+
+                assertEquals(expectedNormalized, expectedActual);
             }
         }
     }
